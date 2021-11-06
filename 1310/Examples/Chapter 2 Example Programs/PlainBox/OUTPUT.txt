@@ -1,0 +1,4 @@
+
+
+numberBox.getItem() = 6.5
+nameBox() = Rumpelstiltskin

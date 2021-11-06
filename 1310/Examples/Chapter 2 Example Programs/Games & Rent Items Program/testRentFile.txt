@@ -1,0 +1,40 @@
+Dice
+You can choose from 20-sided, 8-sided, or a standard 6-sided die. 
+0.01
+10000
+4
+PING-PONG Set
+Two ping-pong paddles and four ping-pong balls.
+1
+500
+4
+Pool Stick Set
+This set includes two pool sticks, 8 pool balls, 1 pool blue chalk, and 1 triangular rack.  We have a wide variety of brands and lengths of pool sticks.
+1
+1000
+4
+7 Wonders Board Game
+7 Wonders is a card development game which lasts three ages.  In each age, players receive seven cards from a particular deck, chooose one of those cards, then pass the remainder to an adjacent player.  Plyars reveal their cards simultaneously, paying resources if needed or collecting resources or interacting with other players in various ways.  After three ages the game ends and whoever has the most points wins.
+1
+4
+6
+Bang! Card Game
+Bang! is a Wild West-themed social deduction card game that is played by four to seven players (three to eight players with variants and expansions).
+1
+2
+6
+Pandemic Board Game
+Pandemic is a cooperative board game based  on the premise that four diseases have broken out in the world, each threatening to wipe out a region. The game accommodates 2 to 4 players.
+1
+4
+6
+Who Should We Eat? Board Game
+Following a mysterious plane crash, you are part of a group of survivors who have washed up on the shores of a desert island.  You must pool your resources and build a raft big enough for everyone to escape, but the food supply is low and your mental resolve is waning.  The more you struggle to survive, the more the other survivors begin to look delicious to you.
+1
+4
+6
+Laser Gun & Vest
+One size fits all black vest with LED lights.  Laswer gun with vibration, LED lights, and sound effects.
+1.5
+25
+1
