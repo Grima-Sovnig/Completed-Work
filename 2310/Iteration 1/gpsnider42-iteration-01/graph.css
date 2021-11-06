@@ -1,0 +1,10 @@
+node {
+    text-alignment: under;
+    size: 10px;
+    fill-color: purple;
+}
+
+/*edge {
+    size: 200px;
+    fill-color: orange;
+}*/

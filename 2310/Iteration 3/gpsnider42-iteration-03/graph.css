@@ -1,0 +1,23 @@
+node {
+    text-alignment: above;
+    size: 20px;
+    fill-color: purple, blue;
+    fill-mode: gradient-radial;
+    stroke-mode: plain;
+    stroke-color: #150080;
+    text-style: bold;
+    text-color: rgb(43,43,43);
+    text-size: 12;
+}
+
+edge{
+    shape: blob;
+    fill-color: #33004D;
+    size: 3px;
+    text-size: 12;
+    text-style: bold;
+    text-color: rgb(18,18,18);
+    arrow-size: 10px;
+    text-alignment: under;
+
+}
