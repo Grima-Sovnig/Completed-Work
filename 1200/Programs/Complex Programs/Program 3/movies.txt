@@ -1,0 +1,6 @@
+"Detective Pikachu",104,PG
+"The Secret Life of Pets 2",86,PG
+"Deadpool 2",119,R
+"Godzilla: King of the Monsters",132,PG-13
+"Avengers: Endgame",181,PG-13
+"The Lion King(1994)",88,G
