@@ -1,0 +1,16 @@
+VEHICLE 1:
+Name: 	Cock Burglar
+Description: 
+Steals CockHas Weapons?	1
+Number of hours to repair the Vehicle: 6.9
+Cost Per Hour: 42
+Cost for Parts: 666
+Supplies Costs:7
+VEHICLE 2:
+Name: 	7
+Description: 
+7Has Weapons?	0
+Number of hours to repair the Vehicle: 7
+Cost Per Hour: 7
+Cost for Parts: 7
+Supplies Costs:6
