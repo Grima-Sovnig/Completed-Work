@@ -1,0 +1,124 @@
+Microsoft (R) Macro Assembler Version 14.30.30709.0	    03/30/22 21:04:39
+E:\Downloads\fig5-9.asm					     Page 1 - 1
+
+
+				; given an array of doubleword integers, (1) find their average
+				; and (2) add 10 to each number smaller than average
+				; author:  R. Detmer
+				; revised:  6/2013
+
+				.586
+				.MODEL FLAT
+				.STACK  4096
+
+ 00000000			.DATA
+ 00000000 00000019		nbrArray    DWORD    25, 47, 15, 50, 32, 95 DUP (?)
+	   0000002F
+	   0000000F
+	   00000032
+	   00000020
+	   0000005F [
+	    00000000
+	   ]
+ 00000190 00000005		nbrElts     DWORD    5
+ 00000194 00000000		aveminfive  DWORD    0
+ 00000198 00000000		aveplufive  DWORD    0
+ 00000000			.CODE
+ 00000000			main        PROC
+				; find sum and average
+ 00000000  B8 00000000		            mov    eax,0            ; sum := 0
+ 00000005  8D 1D 00000000 R	            lea    ebx,nbrArray     ; get address of nbrArray
+ 0000000B  8B 0D 00000190 R	            mov    ecx,nbrElts      ; count := nbrElts
+ 00000011  E3 5D		            jecxz  quit             ; quit if no numbers
+ 00000013  03 03		forCount1:  add    eax,[ebx]        ; add number to sum
+ 00000015  83 C3 04		            add    ebx,4            ; get address of next array elt
+ 00000018  E2 F9		            loop   forCount1        ; repeat nbrElts times
+
+ 0000001A  99			            cdq                     ; extend sum to quadword
+ 0000001B  F7 3D 00000190 R	            idiv   nbrElts          ; calculate average
+
+				; add 10 to each array element below average
+ 00000021  8D 1D 00000000 R	            lea    ebx,nbrArray     ; get address of nbrArray
+ 00000027  8B 0D 00000190 R	            mov    ecx,nbrElts      ; count := nbrElts
+
+ 0000002D  39 03		forCount2:  cmp    [ebx],eax        ; number < average ?
+ 0000002F  7D 3A		            jnl    endIfSmall       ; continue if not less
+ 00000031  83 03 0A		            add    DWORD PTR [ebx], 10   ; add 10 to number
+ 00000034  A3 00000194 R	            mov    aveminfive,eax   ; copies average to aveminfive
+ 00000039  A3 00000198 R	            mov    aveplufive,eax   ; copies average to aveplufive
+ 0000003E  83 2D 00000194 R	            sub    aveminfive, 5    ; subtracts five from aveminfive
+	   05
+ 00000045  83 05 00000198 R	            add    aveplufive, 5    ; adds five to aveplufive
+	   05
+ 0000004C  8B 15 00000194 R	            mov    edx, aveminfive  ; copies aveminfive to edx
+ 00000052  39 13		            cmp    [ebx], edx       ; compares ebx to edx
+ 00000054  7D 02		            jge    aveCheck1        ; jumps if edx is greater than or equal than ebx
+ 00000056  EB 13		            jmp    endIfSmall       ; jmp endIfSmall
+
+ 00000058			aveCheck1:
+ 00000058  BA 00000000		           mov edx, 0               ; copies 0 to edx
+ 0000005D  8B 15 00000198 R	           mov edx, aveplufive      ; copies aveplufive to edx
+ 00000063  39 13		           cmp DWORD PTR[ebx], edx  ; compares ebx to ed
+ 00000065  7C 02		           jl  setEqual             ; jumps to setEqual if 
+ 00000067  EB 02		           jmp endIfSmall
+
+ 00000069			setEqual:
+ 00000069  89 03		          mov [ebx], eax
+
+ 0000006B			endIfSmall:
+ 0000006B  83 C3 04		            add    ebx,4            ; get address of next array elt
+ 0000006E  E2 BD		            loop   forCount2        ; repeat
+				            
+ 00000070  B8 00000000		quit:       mov   eax, 0      ; exit with return code 0
+ 00000075  C3			            ret
+ 00000076			main        ENDP
+				END
+Microsoft (R) Macro Assembler Version 14.30.30709.0	    03/30/22 21:04:39
+E:\Downloads\fig5-9.asm					     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
+_DATA  . . . . . . . . . . . . .	32 Bit	 0000019C Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000076 Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000076 Public
+  forCount1  . . . . . . . . . .	L Near	 00000013 _TEXT	
+  forCount2  . . . . . . . . . .	L Near	 0000002D _TEXT	
+  aveCheck1  . . . . . . . . . .	L Near	 00000058 _TEXT	
+  setEqual . . . . . . . . . . .	L Near	 00000069 _TEXT	
+  endIfSmall . . . . . . . . . .	L Near	 0000006B _TEXT	
+  quit . . . . . . . . . . . . .	L Near	 00000070 _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000000h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+aveminfive . . . . . . . . . . .	DWord	 00000194 _DATA	
+aveplufive . . . . . . . . . . .	DWord	 00000198 _DATA	
+nbrArray . . . . . . . . . . . .	DWord	 00000000 _DATA	
+nbrElts  . . . . . . . . . . . .	DWord	 00000190 _DATA	
+
+	   0 Warnings
+	   0 Errors

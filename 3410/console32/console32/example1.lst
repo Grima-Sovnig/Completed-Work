@@ -1,0 +1,71 @@
+Microsoft (R) Macro Assembler Version 14.30.30709.0	    02/14/22 12:35:57
+example1.asm						     Page 1 - 1
+
+
+				; Example assembly language program -- adds 158 to number in memory
+				; Author:  R. Detmer
+				; Date:    6/2013
+
+				.586
+				.MODEL FLAT
+
+				.STACK  4096            ; reserve 4096-byte stack
+
+ 00000000			.DATA                   ; reserve storage for data
+ 00000000 FFFFFF97		number  DWORD   -105
+ 00000004 00000069		number2 DWORD   105
+ 00000008 00000000		sum     DWORD   ?
+
+ 00000000			.CODE                           ; start of main program code
+ 00000000			main    PROC
+ 00000000  A1 00000000 R	        mov     eax, number     ; first number to EAX
+ 00000005  03 05 00000004 R	        add     eax, number2    ; add number2 to EAX
+ 0000000B  A3 00000008 R	        mov     sum, eax        ; sum to memory
+
+ 00000010  B8 00000000		        mov   eax, 0            ; exit with return code 0
+ 00000015  C3			        ret
+ 00000016			main    ENDP
+
+				END                             ; end of source code
+Microsoft (R) Macro Assembler Version 14.30.30709.0	    02/14/22 12:35:57
+example1.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
+_DATA  . . . . . . . . . . . . .	32 Bit	 0000000C Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000016 Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000016 Public
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000000h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+number2  . . . . . . . . . . . .	DWord	 00000004 _DATA	
+number . . . . . . . . . . . . .	DWord	 00000000 _DATA	
+sum  . . . . . . . . . . . . . .	DWord	 00000008 _DATA	
+
+	   0 Warnings
+	   0 Errors

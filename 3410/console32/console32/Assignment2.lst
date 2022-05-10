@@ -1,0 +1,109 @@
+Microsoft (R) Macro Assembler Version 14.30.30709.0	    04/08/22 16:36:08
+Assignment2.asm						     Page 1 - 1
+
+
+				.586
+				.MODEL FLAT
+				.STACK 4096
+
+ 00000000			.DATA
+ 00000000 00000002		primeArray	DWORD	2, 3, 98 DUP (?)
+	   00000003
+	   00000062 [
+	    00000000
+	   ]
+ 00000190 00000002		primeCount	DWORD	2
+ 00000194 00000005		primeCan	DWORD	5
+ 00000198 00000001		index		DWORD	1
+
+ 00000000			.CODE
+ 00000000			main		PROC
+
+
+ 00000000  83 3D 00000190 R	whileLoop:		cmp primeCount, 100			; Compares primeCount to 100, if it is equal to 100 we have found all the needed primes.
+	   64
+ 00000007  7D 10						jge canidateCheck			; Jumps to canidateCheck if primeCount is greater than or equal to 100
+ 00000009  C7 05 00000198 R					mov index, 1				; Moves 1 into the index variable.
+	   00000001
+ 00000013  8D 35 00000000 R					lea esi, primeArray			; Retrives the starting address for primeArray
+								
+
+
+
+ 00000019  8B 3D 00000190 R	canidateCheck:	mov edi, primeCount			; Moves primeCount to edi
+ 0000001F  39 3D 00000198 R					cmp index, edi				; Compares the current index value to edi (the amount of primes).
+ 00000025  7F 1E						jg addPrime					; Jumps to addPrime if the index is greater than the amount of primes.
+ 00000027  A1 00000194 R					mov eax, primeCan			; Moves primeCand into eax.
+ 0000002C  8B 1E						mov ebx, [esi]				; Moves the value stored in that address of esi into ebx.
+ 0000002E  BA 00000000						mov edx, 0					; Moves zero into edx.
+ 00000033  F7 F3						div ebx						; Divides to see if there is a remainder to determine if number is prime.
+ 00000035  83 FA 00						cmp edx, 0					; Compares edx to zero.
+ 00000038  74 1B						je arrayInc					; If edx is equal to zero jump to arrayInc.
+ 0000003A  FF 05 00000198 R					inc index					; Increases the index by 1
+ 00000040  83 C6 04						add esi, 4					; Adds for to esi to get to next array element.
+ 00000043  EB D4						jmp canidateCheck			; Jumps to canidateCheck
+
+
+ 00000045  83 05 00000190 R	addPrime:		add primeCount, 1			; Adds 1 to primeCount.
+	   01
+ 0000004C  A1 00000194 R					mov eax, primeCan			; Moves the primeCand into eax.
+ 00000051  89 06						mov [esi], eax				; Moves the primeCand into the array.
+ 00000053  E2 AB						loop whileLoop				; Loops the whileLoop.
+
+ 00000055  83 05 00000194 R	arrayInc:		add primeCan, 2			; Adds 2 to the primeCand.
+	   02
+ 0000005C  83 C6 04						add esi, 4					; Adds 4 to get to the next array element.
+ 0000005F  E2 9F						loop whileLoop				; Loops the whileLoop.
+
+ 00000061  B8 00000000		endWhile:		mov eax, 0					; Exits with return code 0
+ 00000066  C3							ret
+ 00000067			main			ENDP
+				END
+Microsoft (R) Macro Assembler Version 14.30.30709.0	    04/08/22 16:36:08
+Assignment2.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
+_DATA  . . . . . . . . . . . . .	32 Bit	 0000019C Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000067 Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000067 Public
+  whileLoop  . . . . . . . . . .	L Near	 00000000 _TEXT	
+  canidateCheck  . . . . . . . .	L Near	 00000019 _TEXT	
+  addPrime . . . . . . . . . . .	L Near	 00000045 _TEXT	
+  arrayInc . . . . . . . . . . .	L Near	 00000055 _TEXT	
+  endWhile . . . . . . . . . . .	L Near	 00000061 _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000000h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+index  . . . . . . . . . . . . .	DWord	 00000198 _DATA	
+primeArray . . . . . . . . . . .	DWord	 00000000 _DATA	
+primeCan . . . . . . . . . . . .	DWord	 00000194 _DATA	
+primeCount . . . . . . . . . . .	DWord	 00000190 _DATA	
+
+	   0 Warnings
+	   0 Errors

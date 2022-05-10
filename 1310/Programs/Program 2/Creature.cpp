@@ -4,6 +4,8 @@
 #include <fstream>
 #include "Creature.h"
 
+
+
 using namespace std;
 
 void Creature::printCreature()
