@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "buddy.h": "c",
+        "convert.h": "c"
+    }
+}
