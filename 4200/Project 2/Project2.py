@@ -16,10 +16,23 @@ if sys.argv[1] == '-s' and sys.argv[3] == '-p' and sys.argv[5] == '-l':
         exit()
     
     file = open(logFile, 'a')
+    print("Send the word network for a special response, or send killswitch to end the connection.")
+    loopVar = True
     userMessage = input("Input your message for the server: ")
-    s.send(userMessage.encode())
-    serverMessage = s.recv(8192).decode()
-    print("Here was the server's response: ", serverMessage)
-    file.write(serverMessage)
+    while loopVar == True:
+        if userMessage != 'killswitch':
+            s.send(userMessage.encode())
+            serverMessage = s.recv(8192).decode()
+            print("Here was the server's response: ", serverMessage)
+            file.write(serverMessage)
+        
+        elif userMessage == 'killswitch':
+            print("You have decided to end the connection.")
+            loopVar = False
+            s.shutdown(1)
+        
     
-    s.shutdown(1)
+    
+    
+    
+  
