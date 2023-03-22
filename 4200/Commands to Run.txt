@@ -4,14 +4,14 @@ python3 Server.py -p 8001 -l serverLog
 
 
 2. Run tcpdump to capture logs using this command. 
-sudo tcpdump -i ens4 dst or src 34.125.89.47 -w project2.pcap -c 100 &
+sudo tcpdump -i ens4 dst or src 34.16.140.61 -w project2.pcap -c 100 &
 
 The 
 &
  is important because it allows you to run another command.
 
 3. Then run
-python3 client.py -s 34.125.89.47 -p 8001 -l clientLog
+python3 client.py -s 34.16.140.61 -p 8001 -l clientLog
 
 
 4. Then run 
