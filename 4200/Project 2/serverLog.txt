@@ -1,0 +1,8 @@
+Incoming Connection from (IP, PORT): ('34.118.241.228', 44250)
+Received: network
+Sending: There is no advertisement as powerful as a positive reputation traveling fast.
+Recieved: test
+Sending: You entered the wrong word!
+Recieved: killswitch
+Sending: Stopping the server...
+Shutting down server.
