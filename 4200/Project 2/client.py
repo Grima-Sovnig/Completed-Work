@@ -27,11 +27,11 @@ if sys.argv[1] == '-s' and sys.argv[3] == '-p' and sys.argv[5] == '-l':
             print("Here was the server's response: ", serverMessage)
             file.write(serverMessage)
             userMessage = input("Input your message for the server: ")
-            s.send(userMessage.encode())
-            file.write(serverMessage)
+            
             
         
         elif userMessage == "killswitch":
+            s.send(userMessage.encode())
             print("You have decided to end the connection.")
             loopVar = False
             break
