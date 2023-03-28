@@ -10,7 +10,7 @@ def packUp(fv, fmt, fml, fm):
 
 # Function to get the command line arguments.
 def get_commandLine(argv=None):
-    parser = argparse.ArgumentParser(description="LightClient")
+    parser = argparse.ArgumentParser(description="LIGHTCLIENT")
     parser.add_argument('-p', type=int, required=True, help='Port')
     parser.add_argument('-l', type=str, required=True, help='logFile')
     parser.add_argument('-s', type=str, required=True, help='Server')
