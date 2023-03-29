@@ -1,0 +1,7 @@
+Connected to (IP, PORT): ('34.125.23.123', 6543)Sending HELLOReceived Data: 
+	version: 	17 
+	message_type: 	3 
+	length: 	5	VERSION ACCEPTED	Recived b'Hello'	Sending Command: LIGHTONReceived Data: 
+	version: 	17 
+	message_type: 	2 
+	length: 	7	VERSION ACCEPTED	Recived b'SUCCESS'

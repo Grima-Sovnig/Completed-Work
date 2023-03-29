@@ -1,3 +1,4 @@
+# Gabriel Snider Project 3 CSC 4200
 import socket
 import sys
 import struct
@@ -20,110 +21,101 @@ def get_commandLine(argv=None):
     
     return cPort, logFile
 
+#Not going to comment this because most of the comments for the client apply to the logic used here.
 if __name__ == '__main__':
-    #Setting the Version and connection information.
     port, log = get_commandLine(sys.argv[1:])
     version = 17
     
-    #Socket creation and binding it to the client to listen.
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((socket.gethostname(), port))
-    s.listen(5)
-    #Prints so the user can see a connection has been made.
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind((socket.gethostname(), port))
+    sock.listen(5)
+    
     print("Started server on: ", socket.gethostname(), ":", port)
     
-    connOb, address = s.accept()
-    logFile = open(log, "w")
+    connection, client = sock.accept()
+    log = open(log, "w")
     
-    print("Received connection from (IP, PORT): ", address)
-    logFile.write(f"Received connection from (IP, PORT): {address}\n")
+    print("Received connection from (IP, PORT): ", client)
+    log.write(f"Received connection from (IP, PORT): {client}\n")
     
-    received = connOb.recv(struct.calcsize('! 3i 5s'))
-    version, msgType, msgLength, msg = struct.unpack('! 3i 5s', received)
+    received = connection.recv(struct.calcsize('! 3i 5s'))
+    version, messageType, messageLength, message = struct.unpack('! 3i 5s', received)
     
-    print("Received Data:\n\tVersion: \t", version,"\n\tMessage Type: \t", msgType, "\n\tMessage Length: ", msgLength)
-    logFile.write(f"Received Data:\n\tVersion: \t{version} \n\tMessage Type: \t{msgType} \n\tMessage Length: {msgLength}\n")
+    print("Received Data:\n\tVersion: \t", version,"\n\tMessage Type: \t", messageType, "\n\tMessage Length: ", messageLength)
+    log.write(f"Received Data:\n\tVersion: \t{version} \n\tMessage Type: \t{messageType} \n\tMessage Length: {messageLength}\n")
     
-
     if version == version:
         print("\tVERSION ACCEPTED")
-        logFile.write(f"\tVERSION ACCEPTED\n")
+        log.write(f"\tVERSION ACCEPTED\n")
         
-        print("\tReceived Message: ", msg)
-        logFile.write(f"\tReceived Message: {msg}\n")
+        print("\tReceived Message: ", message)
+        log.write(f"\tReceived Message: {message}\n")
         
-        if msgType == 3:
-            
+        if messageType == 3:
             message = "Hello"
-            sendType = 3
-            sendPacket = packUp(version, sendType, len(message), message)
+            typeSend = 3
+            sendPacket = packUp(version, typeSend, len(message), message)
             
             print("\tSending Message: ", message, "\n")
-            logFile.write(f"\tSending Message: {message}\n\n")
+            log.write(f"\tSending Message: {message}\n\n")
             
-            connOb.sendall(sendPacket)
+            connection.sendall(sendPacket)
         
-        receivedT = connOb.recv(struct.calcsize('! 3i 7s'))
-        verTwo, msgTypeTwo, msgLengthTwo, msgTwo = struct.unpack('! 3i 7s', received)
-        		
-        print("Received Data:\n\tVersion: \t", verTwo,"\n\tMessage Type: \t", msgTypeTwo, "\n\tMessage Length: ", msgLengthTwo)
-        logFile.write(f"Received Data:\n\tVersion: \t{verTwo} \n\tMessage Type: \t{msgTypeTwo} \n\tMessage Length: {msgLengthTwo}\n")
-
-        if verTwo == version:
+        receivedTwo = connection.recv(struct.calcsize('! 3i 7s'))
+        versionTwo, messageTypeTwo, messageLengthTwo, messageTwo = struct.unpack('! 3i 7s', receivedTwo)
+        
+        print("Received Data:\n\tVersion: \t", versionTwo, "\n\tMessage Type: \t", messageTypeTwo, "\n\tMessage Length: ", messageLengthTwo)
+        log.write(f"Received Data:\n\tVersion: \t{versionTwo} \n\tMessageType: \t{messageTypeTwo} \n\tMessage Length: {messageLengthTwo}\n")
+        
+        if versionTwo == version:
+            
             print("\tVERSION ACCEPTED")
-            logFile.write(f"\tVERSION ACCEPTED\n")
-
-            if msgTypeTwo == 1:
-
-                print(f"\tEXECUTING SUPPORTED COMMAND: ", msgTwo, "\n")
-                logFile.write(f"\tEXECUTING SUPPORTED COMMAND: {msgTwo}\n")
-
+            log.write(f"\tVERSION ACCEPTED\n")
+            
+            if messageTypeTwo == 1:
+                print(f"\tEXECUTING SUPPORTED COMMAND: ", messageTwo, "\n")
+                log.write(f"\tEXECUTING SUPPORTED COMMAND: {messageTwo}\n")
+                
                 message = "SUCCESS"
-                sendType = 1
-
-            elif msgTypeTwo == 2:
-
-                logFile.write(f"\tEXECUTING SUPPORTED COMMAND: {msgTwo}\n")
-                print(f"\tEXECUTING SUPPORTED COMMAND: ", msgTwo, "\n")
-
+                typeSend = 1
+            
+            elif messageTypeTwo == 2:
+                log.write(f"\tEXECUTING SUPPORTED COMMAND: {messageTwo}\n")
+                print(f"\tEXECUTING SUPPORTED COMMAND: ", messageTwo, "\n")
+                
                 message = "SUCCESS"
-                sendType = 2
-
-            elif msgTypeTwo == 4:
-
-                message = "DISCONN"
-                sendType = 4
-			
+                typeSend = 2
+            
+            elif messageTypeTwo == 4:
+                message = "DISCONNECTED"
+                typeSend = 4
+            
             else:
-				
-                logFile.write(f"\tIGNORING UNSUPPORTED COMMAND: {msgTwo}\n")
-                print(f"\tIGNORING UNSUPPORTED COMMAND: ", msgTwo, "\n")
-
+                log.write(f"\tIGNORING UNSUPPORTED COMMAND: {messageTwo}\n")
+                print(f"\tIGNORING UNSUPPORTED COMMAND: ", messageTwo, "\n")
+                
                 message = "FAILURE"
-                sendType = 6
-
+                typeSend = 6
         else:
             print("\tVERSION MISMATCH")
-            logFile.write(f"\tERROR: VERSION MISMATCH")
-
+            log.write(f"\tERROR: VERSION MISMATCH")
+            
             message = "FAILURE"
-            sendType = 5
-
-        sendPacket = packUp(version, sendType, len(message), message)
-        connOb.sendall(sendPacket)
-
+            typeSend = 5
+        
+        sendPacket = packUp(version, typeSend, len(message), message)
+        connection.sendall(sendPacket)
+    
     else:
         print("VERSION MISMATCH")
-        logFile.write(f"ERROR: VERSION MISMATCH")
-
+        log.write(f"ERROR: VERSION MISMATCH")
+        
         message = "FAILURE"
-        sendType = 5
-
-    sendPacket = packUp(version, sendType, len(message), message)
-    connOb.sendall(sendPacket)
-
-		
+        typeSend = 5
     
+    sendPacket = packUp(version, typeSend, len(message), message)
+    connection.sendall(sendPacket)
+
     
     
     

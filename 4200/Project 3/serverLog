@@ -1,0 +1,15 @@
+Received connection from (IP, PORT): ('34.16.144.209', 58072)
+Received Data:
+	Version: 	17 
+	Message Type: 	3 
+	Message Length: 5
+	VERSION ACCEPTED
+	Received Message: b'HELLO'
+	Sending Message: Hello
+
+Received Data:
+	Version: 	17 
+	MessageType: 	2 
+	Message Length: 7
+	VERSION ACCEPTED
+	EXECUTING SUPPORTED COMMAND: b'LIGHTON'

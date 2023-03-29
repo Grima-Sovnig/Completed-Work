@@ -1,3 +1,4 @@
+# Gabriel Snider Project 3 CSC 4200
 import socket
 import struct
 import argparse
@@ -15,6 +16,7 @@ def get_commandLine(argv=None):
     parser.add_argument('-l', type=str, required=True, help='logFile')
     parser.add_argument('-s', type=str, required=True, help='Server')
     
+    # Sets variables equal to the arguments gained from the command line.
     args = parser.parse_args()
     port = args.p
     log = args.l
@@ -25,46 +27,71 @@ def get_commandLine(argv=None):
 
 # Begin Main Function
 if __name__ == '__main__':
-    
-    #Variable Setup for the IP, Port, and File Name
-    port, log, server = get_commandLine(sys.argv[1:])
-    
-    #Creating the Socket for the Client
-    cSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    address = (server, port)
-    logFile = open(log, "w")
-    #Connecting to provided server with client.
-    cSocket.connect(address)
-    #Letting user know the server connected and writing it to the log.
-    print("Sucessfully connected to (IP, PORT): ", address)
-    logFile.write(f"Connected to (IP, PORT): {address}")
-    
-    #Setup for sending to the server.
-    messageToSend = "HELLO"
-    mesLen = len(messageToSend)
-    versionToSend = 17
-    typeToSend = 3
-    
-    print("Sending ", messageToSend)
-    logFile.write(f"Sending {messageToSend}")
-    #Compiling data into a packet for the server.
-    packet = packUp(versionToSend, typeToSend, mesLen, messageToSend)
-    cSocket.send(packet)
-    
-    #Receiving and unpacking data from the server.
-    received = cSocket.recv(struct.calcsize('! 3i 5s'))
-    recievedVersion, recievedMessageType, recievedMessageLength, recievedMessage = struct.unpack('! 3i 5s', received)
-    print("Received Data: \n\tversion: \t", recievedVersion," \n\tmessage_type: \t", recievedMessageType," \n\tlength: \t", recievedMessageLength)
-    logFile.write(f"Received Data: \n\tversion: \t{recievedVersion} \n\tmessage_type: \t{recievedMessageType} \n\tlength: \t{recievedMessageLength}")
+    #Uses previous function to set the port, file name, server
+	port, log, server = get_commandLine(sys.argv[1:])
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	sAddr = (server, port)
+    #Opens file for logging
+	log = open(log, "w")
+	#Connects the socket to the supplied address.
+	sock.connect(sAddr)
+	
+	print("Connected to (IP, PORT): ", sAddr)
+	log.write(f"Connected to (IP, PORT): {sAddr}")
+    #Specs for the message to be sent.
+	sendingMessage = "HELLO"
+	sendingMessageLength = len(sendingMessage)
+	sendingVersion = 17
+	sendingMessageType = 3
 
-    #Version Checking
-    if versionToSend == recievedVersion:
-        print("\tVERSION ACCEPTED")
-        logFile.write("\tVERSION ACCEPTED")
-        
-        print("\tReceived: ", recievedMessage)
-        logFile.write(f"\tReceived {recievedMessage}")
-    else:
-        print("VERSION MISMATCH")
-        logFile.write("VERSION MISMATCH")
-        
+	print("Sending ", sendingMessage)
+	log.write(f"Sending {sendingMessage}")
+	#Uses structure function made earlier to wrap data in a packet.
+	sendPacket = packUp(sendingVersion, sendingMessageType, sendingMessageLength, sendingMessage)
+    #Uses the socket to send packaged data to server.
+	sock.send(sendPacket)
+    #Client then listens and receives a response from the server.
+	sReceived = sock.recv(struct.calcsize('! 3i 5s'))
+    #Unpackages received data and assigns it to variables.
+	recievedVersion, recievedMessageType, recievedMessageLength, recievedMessage = struct.unpack('! 3i 5s', sReceived)
+	
+	print("Received Data: \n\tversion: \t", recievedVersion," \n\tmessage_type: \t", recievedMessageType," \n\tlength: \t", recievedMessageLength)
+	log.write(f"Received Data: \n\tversion: \t{recievedVersion} \n\tmessage_type: \t{recievedMessageType} \n\tlength: \t{recievedMessageLength}")
+    #Checking Version and decided based on supplied information how to respond. 
+	if sendingVersion == recievedVersion:
+		print("\tVERSION ACCEPTED")
+		log.write("\tVERSION ACCEPTED")
+		
+		print("\tReceived: ", recievedMessage)
+		log.write(f"\tRecived {recievedMessage}")
+
+		sendingMessage = "LIGHTON"
+		sendingMessageLength = len(sendingMessage)
+		sendingMessageType = 2
+
+		print("\tSending Command: ", sendingMessage)
+		log.write(f"\tSending Command: {sendingMessage}")
+
+		sendPacket = packUp(sendingVersion, sendingMessageType, sendingMessageLength, sendingMessage)
+		sock.sendall(sendPacket)
+
+		sReceived = sock.recv(struct.calcsize('! 3i 7s'))
+		recievedVersion, recievedMessageType, recievedMessageLength, recievedMessage = struct.unpack('! 3i 7s', sReceived)
+		
+		print("Received Data: \n\tversion: \t", recievedVersion," \n\tmessage_type: \t", recievedMessageType," \n\tlength: \t", recievedMessageLength)
+		log.write(f"Received Data: \n\tversion: \t{recievedVersion} \n\tmessage_type: \t{recievedMessageType} \n\tlength: \t{recievedMessageLength}")
+
+		if sendingVersion == recievedVersion:
+			print("\tVERSION ACCEPTED")
+			log.write("\tVERSION ACCEPTED")
+			
+			print("\tReceived: ", recievedMessage)
+			log.write(f"\tRecived {recievedMessage}")
+
+		else:
+			print("VERSION MISMATCH")
+			log.write("VERSION MISMATCH")
+			
+	else:
+		print("VERSION MISMATCH")
+		log.write("VERSION MISMATCH")
