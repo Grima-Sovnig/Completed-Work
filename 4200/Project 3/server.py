@@ -47,10 +47,10 @@ if __name__ == '__main__':
 
     if version == version:
         print("\tVERSION ACCEPTED")
-        logFile(f"\tVERSION ACCEPTED\n")
+        logFile.write(f"\tVERSION ACCEPTED\n")
         
         print("\tReceived Message: ", msg)
-        logFile(f"\tReceived Message: {msg}\n")
+        logFile.write(f"\tReceived Message: {msg}\n")
         
         if msgType == 3:
             
@@ -59,12 +59,12 @@ if __name__ == '__main__':
             sendPacket = packUp(version, sendType, len(message), message)
             
             print("\tSending Message: ", message, "\n")
-            logFile(f"\tSending Message: {message}\n\n")
+            logFile.write(f"\tSending Message: {message}\n\n")
             
             connOb.sendall(sendPacket)
         
         receivedT = connOb.recv(struct.calcsize('! 3i 7s'))
-        verTwo, msgTypeTwo, msgLengthTwo, msgTwo = struct.unpack('! 3i 7s', receivedT)
+        verTwo, msgTypeTwo, msgLengthTwo, msgTwo = struct.unpack('! 3i 7s', received)
         		
         print("Received Data:\n\tVersion: \t", verTwo,"\n\tMessage Type: \t", msgTypeTwo, "\n\tMessage Length: ", msgLengthTwo)
         logFile.write(f"Received Data:\n\tVersion: \t{verTwo} \n\tMessage Type: \t{msgTypeTwo} \n\tMessage Length: {msgLengthTwo}\n")

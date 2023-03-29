@@ -63,7 +63,7 @@ if __name__ == '__main__':
         logFile.write("\tVERSION ACCEPTED")
         
         print("\tReceived: ", recievedMessage)
-        logFile(f"\tReceived {recievedMessage}")
+        logFile.write(f"\tReceived {recievedMessage}")
     else:
         print("VERSION MISMATCH")
         logFile.write("VERSION MISMATCH")
